@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TutorBuddy - Learn with AI!</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Header/Nav -->
+    <header>
+        <div class="logo">
+            <span class="logo-icon">🦉</span>
+            <span class="logo-text">TutorBuddy</span>
+        </div>
+        <nav>
+            <button class="nav-btn active" data-subject="home">🏠 Home</button>
+            <button class="nav-btn" data-subject="english">📚 English</button>
+            <button class="nav-btn" data-subject="math">🔢 Math</button>
+            <button class="nav-btn" data-subject="science">🔬 Science</button>
+        </nav>
+        <button id="settings-btn" class="settings-btn">⚙️ Settings</button>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content">
+
+        <!-- Home Section -->
+        <section id="home-section" class="subject-section active">
+            <div class="hero">
+                <div class="hero-text">
+                    <h1>Welcome to <span class="highlight">TutorBuddy!</span></h1>
+                    <p>Learning is fun and exciting! Pick a subject to get started and our friendly AI tutor will help you every step of the way! 🌟</p>
+                </div>
+                <div class="hero-image">🦉</div>
+            </div>
+            <div class="subject-cards">
+                <div class="subject-card english-card" onclick="switchSubject('english')">
+                    <div class="card-icon">📚</div>
+                    <h3>English</h3>
+                    <p>Reading, Writing &amp; Vocabulary</p>
+                    <button class="card-btn">Start Learning!</button>
+                </div>
+                <div class="subject-card math-card" onclick="switchSubject('math')">
+                    <div class="card-icon">🔢</div>
+                    <h3>Math</h3>
+                    <p>Numbers, Shapes &amp; Problem Solving</p>
+                    <button class="card-btn">Start Learning!</button>
+                </div>
+                <div class="subject-card science-card" onclick="switchSubject('science')">
+                    <div class="card-icon">🔬</div>
+                    <h3>Science</h3>
+                    <p>Animals, Space &amp; Experiments</p>
+                    <button class="card-btn">Start Learning!</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- English Section -->
+        <section id="english-section" class="subject-section">
+            <h2>📚 English Learning Hub</h2>
+            <div class="topic-tabs">
+                <button class="topic-tab active" data-topic="vocabulary">Vocabulary</button>
+                <button class="topic-tab" data-topic="reading">Reading</button>
+                <button class="topic-tab" data-topic="grammar">Grammar</button>
+            </div>
+
+            <div class="topic-content" id="vocabulary-content">
+                <div class="flashcard-container">
+                    <h3>Word of the Day! 🌟</h3>
+                    <div class="flashcard-wrap">
+                        <div class="flashcard" id="vocab-flashcard">
+                            <div class="flashcard-front">
+                                <span class="word">Curious</span>
+                            </div>
+                            <div class="flashcard-back">
+                                <span class="definition">Eager to learn or know about something</span>
+                                <span class="example">"The <b>curious</b> kitten explored every corner of the room."</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flashcard-btns">
+                        <button class="flip-btn" onclick="flipCard()">Flip Card! 🔄</button>
+                        <button class="next-btn" onclick="nextWord()">Next Word ➡️</button>
+                    </div>
+                </div>
+                <div class="practice-area">
+                    <h3>Practice Time! ✏️</h3>
+                    <p>Can you use this word in a sentence? Type it below!</p>
+                    <textarea placeholder="Write your sentence here..." class="practice-input"></textarea>
+                    <button class="check-btn" onclick="checkWithAI('vocabulary')">Ask TutorBuddy to Check! 🦉</button>
+                </div>
+            </div>
+
+            <div class="topic-content hidden" id="reading-content">
+                <div class="reading-passage">
+                    <h3>Reading Story 📖</h3>
+                    <div class="story-card">
+                        <h4>The Little Star</h4>
+                        <p>Once upon a time, there was a little star who lived high up in the night sky. Every night, she would shine as brightly as she could to help travelers find their way home. One stormy night, dark clouds covered the sky and she could not shine through. She felt sad and worried. But she remembered that even when clouds hide the light, the light is still there. The next morning, when the clouds cleared, she shone brighter than ever before.</p>
+                    </div>
+                    <div class="comprehension-questions">
+                        <h4>Answer These Questions:</h4>
+                        <div class="question">
+                            <p>1. What did the little star do every night?</p>
+                            <textarea placeholder="Write your answer..." class="answer-input"></textarea>
+                        </div>
+                        <div class="question">
+                            <p>2. How did the star feel during the storm? Why?</p>
+                            <textarea placeholder="Write your answer..." class="answer-input"></textarea>
+                        </div>
+                        <div class="question">
+                            <p>3. What lesson did the star learn?</p>
+                            <textarea placeholder="Write your answer..." class="answer-input"></textarea>
+                        </div>
+                        <button class="check-btn" onclick="checkWithAI('reading')">Ask TutorBuddy to Help! 🦉</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="topic-content hidden" id="grammar-content">
+                <h3>Grammar Rules Made Easy! ✨</h3>
+                <div class="grammar-cards">
+                    <div class="grammar-card">
+                        <div class="rule-header">📌 Nouns</div>
+                        <p>A <b>noun</b> is a person, place, thing, or idea.</p>
+                        <div class="examples">
+                            <span class="example-tag">👤 dog</span>
+                            <span class="example-tag">🏫 school</span>
+                            <span class="example-tag">🍎 apple</span>
+                            <span class="example-tag">💭 happiness</span>
+                        </div>
+                    </div>
+                    <div class="grammar-card">
+                        <div class="rule-header">🏃 Verbs</div>
+                        <p>A <b>verb</b> is an action or state of being.</p>
+                        <div class="examples">
+                            <span class="example-tag">🏃 run</span>
+                            <span class="example-tag">😴 sleep</span>
+                            <span class="example-tag">🎨 paint</span>
+                            <span class="example-tag">💭 think</span>
+                        </div>
+                    </div>
+                    <div class="grammar-card">
+                        <div class="rule-header">🎨 Adjectives</div>
+                        <p>An <b>adjective</b> describes a noun.</p>
+                        <div class="examples">
+                            <span class="example-tag">🌈 colorful</span>
+                            <span class="example-tag">🐘 big</span>
+                            <span class="example-tag">🌸 beautiful</span>
+                            <span class="example-tag">⚡ fast</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="grammar-practice">
+                    <h4>Practice: Find the nouns, verbs, and adjectives!</h4>
+                    <p class="grammar-sentence">The <u>happy</u> dog <u>ran</u> quickly through the <u>big</u> park.</p>
+                    <textarea placeholder="List the nouns, verbs, and adjectives you found..." class="practice-input"></textarea>
+                    <button class="check-btn" onclick="checkWithAI('grammar')">Ask TutorBuddy to Check! 🦉</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Math Section -->
+        <section id="math-section" class="subject-section">
+            <h2>🔢 Math Learning Hub</h2>
+            <div class="topic-tabs">
+                <button class="topic-tab active" data-topic="arithmetic">Arithmetic</button>
+                <button class="topic-tab" data-topic="fractions">Fractions</button>
+                <button class="topic-tab" data-topic="geometry">Shapes</button>
+            </div>
+
+            <div class="topic-content" id="arithmetic-content">
+                <h3>Practice Math Problems! 🧮</h3>
+                <div class="math-problem-area">
+                    <div class="problem-display">
+                        <span class="num1">7</span>
+                        <span class="operator">×</span>
+                        <span class="num2">8</span>
+                        <span class="equals">=</span>
+                        <input type="number" class="math-answer" id="math-answer-input" placeholder="?">
+                    </div>
+                    <div class="math-buttons">
+                        <button class="check-btn" onclick="checkMathAnswer()">Check Answer ✓</button>
+                        <button class="next-btn" onclick="newMathProblem()">New Problem 🔄</button>
+                        <button class="hint-btn" onclick="getMathHint()">Need a Hint? 💡</button>
+                    </div>
+                    <div class="feedback-area" id="math-feedback"></div>
+                </div>
+                <div class="times-table">
+                    <h4>Times Tables Reference 📊</h4>
+                    <div class="table-selector">
+                        <label>Show table for:
+                        <select id="table-num" onchange="showTimesTable()">
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                        </select>
+                        </label>
+                    </div>
+                    <div class="table-display" id="times-table-display"></div>
+                </div>
+            </div>
+
+            <div class="topic-content hidden" id="fractions-content">
+                <h3>Understanding Fractions! 🍕</h3>
+                <div class="fraction-demo">
+                    <div class="pizza-container">
+                        <div class="pizza" id="fraction-pizza"></div>
+                    </div>
+                    <div class="fraction-controls">
+                        <label>Total slices (denominator):
+                            <input type="range" min="2" max="8" value="4" id="denominator" oninput="updateFraction()">
+                        </label>
+                        <label>Your slices (numerator):
+                            <input type="range" min="1" max="8" value="1" id="numerator" oninput="updateFraction()">
+                        </label>
+                        <div class="fraction-display" id="fraction-display">1/4</div>
+                        <p id="fraction-words">You have 1 out of 4 slices! 🍕</p>
+                    </div>
+                </div>
+                <div class="fraction-practice">
+                    <h4>Fraction Practice:</h4>
+                    <p>If a pizza has 8 slices and you eat 3, what fraction did you eat?</p>
+                    <input type="text" placeholder="e.g. 3/8" class="fraction-input" id="fraction-answer">
+                    <button class="check-btn" onclick="checkFraction()">Check! ✓</button>
+                    <button class="hint-btn" onclick="getFractionHint()">Need a Hint? 💡</button>
+                    <div id="fraction-feedback"></div>
+                </div>
+            </div>
+
+            <div class="topic-content hidden" id="geometry-content">
+                <h3>Shapes and Geometry! 🔷</h3>
+                <div class="shapes-grid">
+                    <div class="shape-card">
+                        <div class="shape-visual">⬜</div>
+                        <h4>Square</h4>
+                        <p>4 equal sides, 4 corners</p>
+                        <p class="shape-fact">Area = side × side</p>
+                    </div>
+                    <div class="shape-card">
+                        <div class="shape-visual">▭</div>
+                        <h4>Rectangle</h4>
+                        <p>2 pairs of equal sides</p>
+                        <p class="shape-fact">Area = length × width</p>
+                    </div>
+                    <div class="shape-card">
+                        <div class="shape-visual">🔺</div>
+                        <h4>Triangle</h4>
+                        <p>3 sides, 3 corners</p>
+                        <p class="shape-fact">Area = ½ × base × height</p>
+                    </div>
+                    <div class="shape-card">
+                        <div class="shape-visual">⭕</div>
+                        <h4>Circle</h4>
+                        <p>No corners, perfectly round</p>
+                        <p class="shape-fact">Area = π × radius²</p>
+                    </div>
+                </div>
+                <div class="geometry-practice">
+                    <h4>Can you solve this?</h4>
+                    <p>A rectangle is 5 units long and 3 units wide. What is its area?</p>
+                    <input type="number" placeholder="Area = ?" class="geometry-answer" id="geo-answer">
+                    <button class="check-btn" onclick="checkGeometry()">Check! ✓</button>
+                    <button class="hint-btn" onclick="getGeometryHint()">Need a Hint? 💡</button>
+                    <div id="geo-feedback"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Science Section -->
+        <section id="science-section" class="subject-section">
+            <h2>🔬 Science Learning Hub</h2>
+            <div class="topic-tabs">
+                <button class="topic-tab active" data-topic="animals">Animals</button>
+                <button class="topic-tab" data-topic="space">Space</button>
+                <button class="topic-tab" data-topic="nature">Nature</button>
+            </div>
+
+            <div class="topic-content" id="animals-content">
+                <h3>Amazing Animals! 🦁</h3>
+                <div class="animal-cards">
+                    <div class="animal-card" onclick="learnAboutAnimal('lion')">
+                        <div class="animal-emoji">🦁</div>
+                        <h4>Lion</h4>
+                        <p>Click to learn!</p>
+                    </div>
+                    <div class="animal-card" onclick="learnAboutAnimal('elephant')">
+                        <div class="animal-emoji">🐘</div>
+                        <h4>Elephant</h4>
+                        <p>Click to learn!</p>
+                    </div>
+                    <div class="animal-card" onclick="learnAboutAnimal('dolphin')">
+                        <div class="animal-emoji">🐬</div>
+                        <h4>Dolphin</h4>
+                        <p>Click to learn!</p>
+                    </div>
+                    <div class="animal-card" onclick="learnAboutAnimal('eagle')">
+                        <div class="animal-emoji">🦅</div>
+                        <h4>Eagle</h4>
+                        <p>Click to learn!</p>
+                    </div>
+                    <div class="animal-card" onclick="learnAboutAnimal('butterfly')">
+                        <div class="animal-emoji">🦋</div>
+                        <h4>Butterfly</h4>
+                        <p>Click to learn!</p>
+                    </div>
+                    <div class="animal-card" onclick="learnAboutAnimal('shark')">
+                        <div class="animal-emoji">🦈</div>
+                        <h4>Shark</h4>
+                        <p>Click to learn!</p>
+                    </div>
+                </div>
+                <div class="animal-info" id="animal-info" style="display:none;">
+                    <div class="animal-detail-card" id="animal-detail"></div>
+                </div>
+            </div>
+
+            <div class="topic-content hidden" id="space-content">
+                <h3>Explore Space! 🚀</h3>
+                <div class="solar-system">
+                    <div class="sun">☀️</div>
+                    <div class="planets">
+                        <div class="planet-item" onclick="learnAboutPlanet('Mercury')">
+                            <div class="planet-dot mercury"></div>
+                            <span>Mercury</span>
+                        </div>
+                        <div class="planet-item" onclick="learnAboutPlanet('Venus')">
+                            <div class="planet-dot venus"></div>
+                            <span>Venus</span>
+                        </div>
+                        <div class="planet-item" onclick="learnAboutPlanet('Earth')">
+                            <div class="planet-dot earth"></div>
+                            <span>Earth 🌍</span>
+                        </div>
+                        <div class="planet-item" onclick="learnAboutPlanet('Mars')">
+                            <div class="planet-dot mars"></div>
+                            <span>Mars</span>
+                        </div>
+                        <div class="planet-item" onclick="learnAboutPlanet('Jupiter')">
+                            <div class="planet-dot jupiter"></div>
+                            <span>Jupiter</span>
+                        </div>
+                        <div class="planet-item" onclick="learnAboutPlanet('Saturn')">
+                            <div class="planet-dot saturn"></div>
+                            <span>Saturn</span>
+                        </div>
+                        <div class="planet-item" onclick="learnAboutPlanet('Uranus')">
+                            <div class="planet-dot uranus"></div>
+                            <span>Uranus</span>
+                        </div>
+                        <div class="planet-item" onclick="learnAboutPlanet('Neptune')">
+                            <div class="planet-dot neptune"></div>
+                            <span>Neptune</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="planet-info" id="planet-info">
+                    <p style="color:#667eea; font-weight:700;">Click a planet above to learn about it! 🚀</p>
+                </div>
+            </div>
+
+            <div class="topic-content hidden" id="nature-content">
+                <h3>Nature Wonders! 🌿</h3>
+                <div class="nature-topics">
+                    <div class="nature-card">
+                        <div class="nature-icon">🌱</div>
+                        <h4>How Plants Grow</h4>
+                        <div class="nature-steps">
+                            <div class="step"><span class="step-num">1</span> A seed is planted in soil</div>
+                            <div class="step"><span class="step-num">2</span> The seed absorbs water and sprouts</div>
+                            <div class="step"><span class="step-num">3</span> Roots grow down, stem grows up</div>
+                            <div class="step"><span class="step-num">4</span> Leaves grow and capture sunlight</div>
+                            <div class="step"><span class="step-num">5</span> The plant makes food through photosynthesis</div>
+                        </div>
+                    </div>
+                    <div class="nature-card">
+                        <div class="nature-icon">💧</div>
+                        <h4>The Water Cycle</h4>
+                        <div class="nature-steps">
+                            <div class="step"><span class="step-num">1</span> Water evaporates from oceans</div>
+                            <div class="step"><span class="step-num">2</span> Water vapor rises and cools</div>
+                            <div class="step"><span class="step-num">3</span> Water droplets form clouds</div>
+                            <div class="step"><span class="step-num">4</span> Water falls as rain or snow</div>
+                            <div class="step"><span class="step-num">5</span> Water flows back to the ocean</div>
+                        </div>
+                    </div>
+                    <div class="nature-card">
+                        <div class="nature-icon">🌤️</div>
+                        <h4>Types of Weather</h4>
+                        <div class="weather-icons">
+                            <div class="weather-item"><span>☀️</span><p>Sunny</p></div>
+                            <div class="weather-item"><span>🌧️</span><p>Rainy</p></div>
+                            <div class="weather-item"><span>⛈️</span><p>Stormy</p></div>
+                            <div class="weather-item"><span>❄️</span><p>Snowy</p></div>
+                            <div class="weather-item"><span>🌈</span><p>Rainbow</p></div>
+                            <div class="weather-item"><span>💨</span><p>Windy</p></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="nature-question">
+                    <h4>Think About It! 🤔</h4>
+                    <p>Why do plants need sunlight to grow? Write your answer:</p>
+                    <textarea placeholder="What do you think?" class="practice-input"></textarea>
+                    <button class="check-btn" onclick="checkWithAI('nature')">Ask TutorBuddy! 🦉</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Chatbot Button -->
+    <button class="chatbot-btn" id="chatbot-btn" onclick="toggleChatbot()">
+        🦉 <span class="chat-label">Ask TutorBuddy!</span>
+    </button>
+
+    <!-- Chatbot Panel -->
+    <div class="chatbot-panel" id="chatbot-panel">
+        <div class="chat-header">
+            <span>🦉 TutorBuddy</span>
+            <span class="chat-subject-label" id="chat-subject-label">Home</span>
+            <button onclick="toggleChatbot()" class="close-chat">✕</button>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+            <div class="message bot-message">
+                <span class="message-icon">🦉</span>
+                <div class="message-bubble">
+                    Hi there! I'm TutorBuddy! 🌟 I'm here to help you learn. Pick a subject and ask me anything — there are no silly questions! What would you like to learn today?
+                </div>
+            </div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="chat-input" placeholder="Ask me anything! 😊" onkeypress="handleChatKeypress(event)">
+            <button onclick="sendMessage()" class="send-btn">Send 🚀</button>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="modal-overlay" id="settings-modal" style="display:none;">
+        <div class="modal">
+            <h2>⚙️ Settings</h2>
+            <p>Enter your Anthropic API key to power TutorBuddy's AI brain!</p>
+            <div class="api-key-info">
+                <p>🔑 Get your free API key at <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a></p>
+            </div>
+            <input type="password" id="api-key-input" placeholder="sk-ant-..." class="api-key-field">
+            <div class="modal-buttons">
+                <button onclick="saveApiKey()" class="save-btn">Save! ✓</button>
+                <button onclick="closeSettings()" class="cancel-btn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
