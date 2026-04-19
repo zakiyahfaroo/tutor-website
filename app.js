@@ -172,11 +172,12 @@ function switchSubject(subject) {
     document.querySelectorAll('.subject-section').forEach(s => s.classList.remove('active'));
     document.getElementById(subject + '-section').classList.add('active');
 
-    const labels = { home: 'Home', english: '📚 English', math: '🔢 Math', science: '🔬 Science' };
+    const labels = { home: 'Home', english: '📚 English', math: '🔢 Math', science: '🔬 Science', tutors: '👩‍🏫 Tutors' };
     document.getElementById('chat-subject-label').textContent = labels[subject] || subject;
 
     if (subject === 'math')    showTimesTable();
     if (subject === 'science') setTimeout(updateFraction, 100);
+    if (subject === 'tutors')  renderTutorCards();
 }
 
 // Topic tabs (delegated)
@@ -518,6 +519,222 @@ function setFeedback(id, text, color) {
     if (!el) return;
     el.textContent  = text;
     el.style.color  = color;
+}
+
+// ─── Tutor Data ───────────────────────────────────────────
+const tutors = [
+    {
+        id: 1,
+        name: 'Miss Sarah Chen',
+        avatar: '👩‍🏫',
+        subjects: ['English', 'Reading', 'Writing'],
+        bio: 'Patient and creative English specialist. I love turning reading into an adventure for every student!',
+        rating: '⭐ 4.9',
+        reviews: 142,
+        price: '£25 / session',
+        slots: [
+            { label: 'Mon 3:00 pm', available: true },
+            { label: 'Mon 4:30 pm', available: false },
+            { label: 'Tue 3:30 pm', available: true },
+            { label: 'Wed 4:00 pm', available: true },
+            { label: 'Thu 3:00 pm', available: false },
+            { label: 'Fri 2:30 pm', available: true },
+        ],
+    },
+    {
+        id: 2,
+        name: 'Mr James Okafor',
+        avatar: '👨‍🏫',
+        subjects: ['Maths', 'Problem Solving'],
+        bio: 'Former engineer turned maths tutor. I make numbers make sense through real-world examples and games!',
+        rating: '⭐ 4.8',
+        reviews: 98,
+        price: '£28 / session',
+        slots: [
+            { label: 'Mon 4:00 pm', available: true },
+            { label: 'Tue 5:00 pm', available: true },
+            { label: 'Wed 3:30 pm', available: false },
+            { label: 'Thu 4:30 pm', available: true },
+            { label: 'Fri 3:00 pm', available: true },
+            { label: 'Sat 10:00 am', available: true },
+        ],
+    },
+    {
+        id: 3,
+        name: 'Dr Priya Sharma',
+        avatar: '👩‍🔬',
+        subjects: ['Science', 'Biology', 'Physics'],
+        bio: 'Science is everywhere! I bring experiments and curiosity to every session. KS2 & KS3 specialist.',
+        rating: '⭐ 5.0',
+        reviews: 61,
+        price: '£30 / session',
+        slots: [
+            { label: 'Tue 4:00 pm', available: true },
+            { label: 'Wed 5:00 pm', available: true },
+            { label: 'Thu 3:30 pm', available: true },
+            { label: 'Fri 4:00 pm', available: false },
+            { label: 'Sat 11:00 am', available: true },
+            { label: 'Sun 2:00 pm', available: true },
+        ],
+    },
+    {
+        id: 4,
+        name: 'Mr Tom Whitfield',
+        avatar: '🧑‍💻',
+        subjects: ['Maths', 'English', 'All Subjects'],
+        bio: 'Enthusiastic all-rounder who specialises in building confidence. Great with kids who find school tricky!',
+        rating: '⭐ 4.7',
+        reviews: 207,
+        price: '£22 / session',
+        slots: [
+            { label: 'Mon 5:00 pm', available: true },
+            { label: 'Tue 3:00 pm', available: true },
+            { label: 'Wed 4:00 pm', available: true },
+            { label: 'Thu 5:00 pm', available: false },
+            { label: 'Fri 4:30 pm', available: true },
+            { label: 'Sat 9:00 am', available: false },
+        ],
+    },
+    {
+        id: 5,
+        name: 'Miss Amara Diallo',
+        avatar: '👩‍🎨',
+        subjects: ['English', 'Creative Writing'],
+        bio: 'Published children\'s author and tutor! I spark a love of storytelling and help kids find their unique voice.',
+        rating: '⭐ 4.9',
+        reviews: 83,
+        price: '£26 / session',
+        slots: [
+            { label: 'Mon 3:30 pm', available: true },
+            { label: 'Wed 3:00 pm', available: true },
+            { label: 'Thu 4:00 pm', available: true },
+            { label: 'Fri 3:30 pm', available: false },
+            { label: 'Sat 10:30 am', available: true },
+            { label: 'Sun 3:00 pm', available: true },
+        ],
+    },
+    {
+        id: 6,
+        name: 'Mr Liam Byrne',
+        avatar: '🧑‍🏫',
+        subjects: ['Maths', 'Science', 'Reasoning'],
+        bio: 'Ex-primary school teacher with 10 years\' experience. Brilliant at 11+ prep and building maths fluency.',
+        rating: '⭐ 4.8',
+        reviews: 175,
+        price: '£27 / session',
+        slots: [
+            { label: 'Tue 4:30 pm', available: true },
+            { label: 'Wed 5:30 pm', available: false },
+            { label: 'Thu 3:00 pm', available: true },
+            { label: 'Fri 5:00 pm', available: true },
+            { label: 'Sat 11:30 am', available: true },
+            { label: 'Sun 10:00 am', available: true },
+        ],
+    },
+];
+
+let selectedTutor = null;
+let selectedSlot  = null;
+
+function renderTutorCards() {
+    const grid = document.getElementById('tutors-grid');
+    if (!grid) return;
+    grid.innerHTML = tutors.map(t => `
+        <div class="tutor-card" onclick="openTutorBooking(${t.id})">
+            <div class="tutor-avatar">${t.avatar}</div>
+            <div class="tutor-name">${t.name}</div>
+            <div class="tutor-subjects">
+                ${t.subjects.map(s => `<span class="tutor-subject-tag">${s}</span>`).join('')}
+            </div>
+            <p class="tutor-bio">${t.bio}</p>
+            <div class="tutor-meta">
+                <span class="tutor-rating">${t.rating} (${t.reviews})</span>
+                <span class="tutor-price">${t.price}</span>
+            </div>
+            <button class="book-btn">Book a Session 📅</button>
+        </div>
+    `).join('');
+}
+
+function openTutorBooking(id) {
+    selectedTutor = tutors.find(t => t.id === id);
+    selectedSlot  = null;
+
+    document.getElementById('tutors-grid').style.display         = 'none';
+    document.getElementById('booking-panel').style.display       = 'block';
+    document.getElementById('booking-confirmation').style.display = 'none';
+
+    document.getElementById('selected-tutor-info').innerHTML = `
+        <span class="info-avatar">${selectedTutor.avatar}</span>
+        <div>
+            <div class="info-name">${selectedTutor.name}</div>
+            <div class="info-price">${selectedTutor.price} &nbsp;·&nbsp; ${selectedTutor.rating}</div>
+        </div>
+    `;
+
+    const slotsGrid = document.getElementById('slots-grid');
+    slotsGrid.innerHTML = selectedTutor.slots.map((s, i) => `
+        <button class="slot-btn ${s.available ? '' : 'unavailable'}"
+            onclick="${s.available ? `selectSlot(${i}, this)` : ''}"
+            ${s.available ? '' : 'disabled'}>
+            ${s.label}${s.available ? '' : ' (taken)'}
+        </button>
+    `).join('');
+
+    document.getElementById('booking-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function selectSlot(index, btn) {
+    selectedSlot = selectedTutor.slots[index];
+    document.querySelectorAll('.slot-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+}
+
+function closeTutorBooking() {
+    document.getElementById('tutors-grid').style.display         = 'grid';
+    document.getElementById('booking-panel').style.display       = 'none';
+    document.getElementById('booking-confirmation').style.display = 'none';
+    selectedTutor = null;
+    selectedSlot  = null;
+}
+
+function submitBooking() {
+    const name    = document.getElementById('book-name').value.trim();
+    const email   = document.getElementById('book-email').value.trim();
+    const grade   = document.getElementById('book-grade').value;
+    const subject = document.getElementById('book-subject').value;
+
+    if (!name)    { alert('Please enter your name! 😊'); return; }
+    if (!email || !email.includes('@')) { alert('Please enter a valid email address! 📧'); return; }
+    if (!grade)   { alert('Please select your year / grade! 📚'); return; }
+    if (!subject) { alert('Please select a subject! 🔬'); return; }
+    if (!selectedSlot) { alert('Please choose a time slot! 📅'); return; }
+
+    document.getElementById('booking-panel').style.display        = 'none';
+    document.getElementById('booking-confirmation').style.display = 'block';
+
+    document.getElementById('confirmation-details').innerHTML = `
+        <strong>Tutor:</strong> ${selectedTutor.avatar} ${selectedTutor.name}<br>
+        <strong>Time:</strong> ${selectedSlot.label}<br>
+        <strong>Subject:</strong> ${subject}<br>
+        <strong>Name:</strong> ${name}<br>
+        <strong>Email:</strong> ${email}<br>
+        <strong>Year:</strong> ${grade}
+    `;
+
+    document.getElementById('booking-confirmation').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function resetBooking() {
+    ['book-name', 'book-email', 'book-notes'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+    });
+    ['book-grade', 'book-subject'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.selectedIndex = 0;
+    });
+    closeTutorBooking();
 }
 
 // ─── Init ─────────────────────────────────────────────────
